@@ -1,0 +1,38 @@
+#version 460 core
+//Vertex position data:
+layout (location = 0) in vec3 aPos;
+
+//Camera variables:
+uniform float screenDistance;
+uniform float minDistanceOffset;
+uniform float length;
+uniform float cameraX;
+uniform float cameraY;
+uniform float cameraZ;
+uniform float cameraXRot;
+uniform float cameraYRot;
+
+void main()
+{
+//Create copies of our input x,y,z coordinates and translate them into camera space
+float xPos = aPos.x - cameraX;
+float yPos = aPos.y - cameraY;
+float zPos = aPos.z - cameraZ;
+
+//Rotate the coordinates to complete their transformation into camera coordinates:
+//Rotate along the y axis (look left/right)
+//Not 100% sure if the sines and cosines in these rotations are correct
+float rXPos = cos(-1.0 * cameraXRot) * xPos + sin(-1.0 * cameraXRot) * zPos;
+float rZPos = -1.0 * sin(-1.0 * cameraXRot) * xPos + cos(-1.0 * cameraXRot) * zPos;
+
+//Rotate along the x axis (look up/down)
+float rYPos = cos(-1.0 * cameraYRot) * yPos - sin(-1.0 * cameraYRot) * rZPos;
+rZPos = sin(-1.0 * cameraYRot) * yPos + cos(-1.0 * cameraYRot) * rZPos;
+
+//Update x,y,z position with their rotated values
+xPos = rXPos;
+yPos = rYPos;
+zPos = rZPos;
+
+gl_Position = vec4(xPos, yPos, ((((zPos*zPos)-minDistanceOffset)/length)/screenDistance), (zPos/screenDistance));
+}
