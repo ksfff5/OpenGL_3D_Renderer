@@ -1,6 +1,6 @@
 # OpenGL_3D_Renderer
 
-A project that shows off a small library I wrote to render 3D objects with OpenGL. This library greatly simplifies the process of rendering a simple 3D scene using OpenGL.
+A project that shows off a small library I wrote to render 3D objects with OpenGL. This library greatly simplifies the process of rendering a simple 3D scene using OpenGL. It does this by abstracting away the buffers and shaders that OpenGL uses.
 
 This repo contains a project that implements the library (as well as the library itself).
 
